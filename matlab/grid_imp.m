@@ -1,9 +1,12 @@
-A = [1 2; 1 -1];
-epss = 10;
-m = 100;
-function gridimp(A,epss,m) %je declare ma fonction et entre()les parametres
-    [n, r] = size(A) %j'affecte a n la taille de A pour pouvoir faire la matrice identite de la meme taille
+%A = [1 2; 1 -1];
+%A = [5 0 0 -1; 1 0 -1 1; -1.5 1 -2 1; -1 1 3 -3];
+%epss = 10;
+%m = 100;
+function grid_imp(A,epss,m) %je declare ma fonction et entre()les parametres
+    [n, r] = size(A); %j'affecte a n la taille de A pour pouvoir faire la matrice identite de la meme taille
+    sigmin = zeros(m);
     [min_x, max_x, min_y, max_y] = gershdisc(A);
+    %[max_x,min_x,max_y,min_y] = rectangle2(A,eps);
     x = linspace(min_x, max_x, m); %je decoupe un tableau qui va de -nb a nb et m parties egales.
     y = linspace(min_y, max_y, m); %memechose
     for k = 1 : m

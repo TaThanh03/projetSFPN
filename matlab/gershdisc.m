@@ -11,18 +11,18 @@ for i = 1:size(A,1)
         if i ~= j 
             r=r+(norm(A(i,j)));
         end
-        if (h - r) < min_x
-            min_x = (h - r);
-        end
-        if (h + r) > max_x
-            max_x = (h + r);
-        end
-        if (k - r) < min_y
-            min_y = (k - r);
-        end
-        if (k + r) > max_y
-            max_y = (k + r);
-        end
+    end
+    if (h - r) < min_x
+        min_x = (h - r);
+    end
+    if (h + r) > max_x
+        max_x = (h + r);
+    end
+    if (k - r) < min_y
+        min_y = (k - r);
+    end
+    if (k + r) > max_y
+        max_y = (k + r);
     end
 end
 
