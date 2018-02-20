@@ -1,6 +1,7 @@
 function [centre,rayons] = disque2(A,eps)
 [n, r] = size(A);
 rayons = zeros(1,n);
+centre = zeros(n);
 for i = 1:n
     centre(i) = A(i,i);
     for j = 1:n
