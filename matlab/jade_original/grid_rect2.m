@@ -5,10 +5,10 @@ x = linspace(min_r,max_r,m) %je decoupe un tableau qui va de -nb a nb et m parti
 y = linspace(min_i,max_i,m) %memechose
 for k = 1:m, for j = 1:m %mes deux boucles for imbriquees
         a=min(svd((x(k)+y(j)*1i)*eye(n)-A)); %le calcul du min de la svd avec les fonctions matlab min et svd et eye(n) une mat identite de taille n
-        sigmin1(j,k) = a; 
+        sigmin1(j,k) = a;
     end
 end
-[C,h] = contour(x,y,sigmin1,[epss epss]) %je trace les lignes de niveau 
+[C,h] = contour(x,y,sigmin1,[epss epss]) %je trace les lignes de niveau
 
 
 end

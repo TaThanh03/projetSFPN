@@ -1,4 +1,4 @@
-function grid_petits_rec(A,epss,m)
+function grid_petits_rect(A,epss,m)
 
 [max_r,min_r,max_i,min_i] = petits_rectangles(A,eps); %je declare ma fonction et entre()les parametres
 [n, r] = size(A);%j'affecte a n la taille de A pour pouvoir faire la matrice identite de la meme taille
@@ -23,6 +23,12 @@ for i = 1:n
     tmp2 = y(1+(i-1)*m:i*m);
     tmp3 = sigmin2(1+(i-1)*m:i*m,1+(i-1)*m:i*m);
     [C,h] = contour(tmp1,tmp2,tmp3, [epss epss]);
+    [m,n] = size(sigmin2)
+    fprintf('size  %f\n', m, n);
     hold on;%je trace les lignes de niveau 
 end
 end
+
+%A =[1 2 3 4 5; 2 3 4 5 6; 5 6 4 3 7; 3 8 7 9 6; 1 2 3 6 7]
+% epss= 0.3
+% m = 1000

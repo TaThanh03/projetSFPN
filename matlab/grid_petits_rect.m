@@ -12,9 +12,11 @@ for l = 1:n
         y((l-1)*m+k) = tmp2(k);
     end
 end
-for l = 1:n, for k = 1:m, for j = 1:m %mes deux boucles for imbriquees
-        a=min(svd((x((l-1)*m+k)+y((l-1)*m+j)*1i)*eye(n)-A)); %le calcul du min de la svd avec les fonctions matlab min et svd et eye(n) une mat identite de taille n
-        sigmin2(j+(l-1)*m,k+(l-1)*m) = a; 
+for l = 1:n, 
+    for k = 1:m, 
+	for j = 1:m %mes deux boucles for imbriquees
+            a=min(svd((x((l-1)*m+k)+y((l-1)*m+j)*1i)*eye(n)-A)); %le calcul du min de la svd avec les fonctions matlab min et svd et eye(n) une mat identite de taille n
+            sigmin2(j+(l-1)*m,k+(l-1)*m) = a; 
         end
     end
 end
