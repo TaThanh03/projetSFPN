@@ -5,19 +5,18 @@
 import numpy as np
 from rectangle_collision_check import rectangle_collision_check
 from merge_rects import merge_rects
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
 
 def minimalize_rects(max_r, min_r, max_i, min_i):
     X = list(min_r)
     Y = list(min_i)
     W = list(np.subtract(max_r, min_r))
     H = list(np.subtract(max_i, min_i))
+    """
     print(X)
     print(Y)
     print(W)
     print(H)
-    
+    """
     merge_continue = 1
     
     while merge_continue == 1:
@@ -53,11 +52,13 @@ def minimalize_rects(max_r, min_r, max_i, min_i):
                         W.pop(i)
                         H.pop(i)
                     collide_once = 1
+                    """
                     print("===========", collide, couvert)
                     print(X)
                     print(Y)
                     print(W)
                     print(H)
+                    """
                     break
             if collide_once == 1:
                 break

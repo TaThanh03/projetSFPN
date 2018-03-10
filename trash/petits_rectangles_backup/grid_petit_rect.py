@@ -2,7 +2,6 @@ import numpy as np
 from petit_rectangle import petit_rectangle
 import matplotlib.patches as patches
 import matplotlib.pyplot as plt
-
 def grid_petit_rect(A,eps,m):
     (max_r,min_r,max_i,min_i) = petit_rectangle(A,eps)
     n,r = np.shape(A)
@@ -24,7 +23,7 @@ def grid_petit_rect(A,eps,m):
         tmp1 = x[1+(i-1)*m:i*m]
         tmp2 = y[1+(i-1)*m:i*m]
         tmp3 = sigmin[ 1+(i-1)*m : i*m , 1+(i-1)*m : i*m ]    
-        if len(tmp3) >= 0:
+        if len(tmp3) >= 1:
             plt.contour(tmp1, tmp2, tmp3, [eps])
     """
     plt.figure()
@@ -36,7 +35,7 @@ def grid_petit_rect(A,eps,m):
 
 
 A = np.array([[1,2,3,4,5],[2,3,4,5,6],[5,6,4,3,7],[3,8,7,9,6],[1,2,3,6,7]])
-grid_petit_rect(A,0.3,500)
+grid_petit_rect(A,0.3,200)
 """
 A = np.array([[5,0,0,-1],[1,0,-1,1],[-1.5,1,-2,1],[-1,1,3,-3]])
 grid_petit_rect(A,0.3,100)
