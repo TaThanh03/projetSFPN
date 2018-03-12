@@ -49,24 +49,16 @@ def petits_rect(A,eps):
             min_i.append(minim)
             centre2 = []
             rayons2 = []
+    #Calcule la taille des petits rects
+    s = np.size(max_r)
+    taille_rect = np.zeros(s)
+    for i in range(s):
+        taille_rect.itemset(i, (max_r[i] - min_r[i]) * (max_i[i] - min_i[i]))
+    #Calcule la taille du grand rect
+    grand_rect_max_r, grand_rect_min_r, grand_rect_max_i, grand_rect_min_i = rect(centres,rayons)
+    taille_grand_rect = (grand_rect_max_r - grand_rect_min_r) * (grand_rect_max_i - grand_rect_min_i)
+    #m_scalar to re-calcule new "m"
+    m_scalar = min(taille_rect.item(np.argmax(taille_rect)), taille_grand_rect)/ max( taille_rect.item(np.argmax(taille_rect)), taille_grand_rect)
     
-    
-    max_r_grand_rect = 0
-    min_r_grand_rect = 0
-    max_i_grand_rect = 0
-    min_i_grand_rect = 0
-    for i in range (n):
-        tmp1 = centres[i].real + rayons[i]
-        tmp2 = centres[i].real - rayons[i]
-        tmp3 = centres[i].imag + rayons[i]
-        tmp4 = centres[i].imag - rayons[i]
-        if(tmp1 > max_r):
-            max_r_grand_rect = tmp1
-        if(tmp2 < min_r):
-            min_r_grand_rect = tmp2
-        if(tmp3 > max_i):
-            max_i_grand_rect = tmp3
-        if(tmp4 < min_i):
-            min_i_grand_rect = tmp4
-
-    return max_r,min_r,max_i,min_i, max_r_grand_rect,min_r_grand_rect,max_i_grand_rect,min_i_grand_rect
+    print("m_scalar", m_scalar, taille_grand_rect, taille_rect)
+    return max_r,min_r,max_i,min_i,m_scalar #, max_r_grand_rect,min_r_grand_rect,max_i_grand_rect,min_i_grand_rect
