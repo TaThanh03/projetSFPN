@@ -1,0 +1,36 @@
+1- Crée un repertoire "git_zone" dans ton laptop 
+
+2- Ouvrir un terminal dans ce repertoire
+
+3- Dans ce repertoire, tap "git init" pour initialiser le git tracker systeme 
+si ca ne marche pas il faut installer github dans ta Mac
+https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+
+4- Dans ce repertoire, tap "git clone https://github.com/TaThanh03/projetSFPN.git" pour clone le projet
+Maintenant tu peux bien traivailler sur notre projet
+
+5- Maintenant si tu tap "git status" dans le repertoire "projetSFPN" il va afficher:
+On branch master
+Your branch is up-to-date with 'origin/master'.
+évidemment, parce que il y a aucun changement dans le repertoire
+
+6- Tu change quelque chose dans le projet, par example crées un fichier "abc.txt" dans "projetSFPN"
+
+7- Tap "git status", il va afficher:
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	abc
+le git tracker a noté que tu change quelque chose
+
+8- Tap "git add -A" pour ajouter tous les changement 
+
+9- Tap "git commit -m "j'ai ajouté le fichier abc"" pour commit le changement dans le repertoire
+
+10- Tap "git push origin master" pour mettre en linge les trucs qui ont changés      
+
+P.S : à partir de maintenant, tu commencer le procedure à partir d'étape 6
+ 
