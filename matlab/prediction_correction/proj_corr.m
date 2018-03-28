@@ -42,3 +42,4 @@ function proj_corr(A,epss,lamb0,K,tol,tho)
     end
     plot(zx,zy);
 end
+%A = [1 2 3 4 5; 2 3 4 5 6; 5 6 4 3 7; 3 8 7 9 6; 1 2 3 6 7]
