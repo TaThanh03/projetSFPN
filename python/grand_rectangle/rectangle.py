@@ -1,6 +1,6 @@
 import numpy as np
 from disque import disque 
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 def rectangle(A,eps):
     centres,rayons = disque(A,eps)
@@ -23,7 +23,7 @@ def rectangle(A,eps):
         if(tmp4 < min_i):
             min_i = tmp4
 
-    
+    """
     fig, ax = plt.subplots()
     for i in range (n):
         circle = plt.Circle((centres[i].real, centres[i].imag), rayons[i], color='b', fill=False)
@@ -31,5 +31,5 @@ def rectangle(A,eps):
     ax.set_xlim((min_r, max_r))
     ax.set_ylim((min_i, max_i))
     fig.show()
-    
+    """
     return max_r,min_r,max_i,min_i

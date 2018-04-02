@@ -59,6 +59,4 @@ def petits_rect(A,eps):
     taille_grand_rect = (grand_rect_max_r - grand_rect_min_r) * (grand_rect_max_i - grand_rect_min_i)
     #m_scalar to re-calcule new "m"
     m_scalar = min(taille_rect.item(np.argmax(taille_rect)), taille_grand_rect)/ max( taille_rect.item(np.argmax(taille_rect)), taille_grand_rect)
-    
-    print("m_scalar", m_scalar, taille_grand_rect, taille_rect)
     return max_r,min_r,max_i,min_i,m_scalar #, max_r_grand_rect,min_r_grand_rect,max_i_grand_rect,min_i_grand_rect

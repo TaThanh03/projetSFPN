@@ -1,7 +1,7 @@
 import numpy as np
 from rectangle import rectangle
-import matplotlib.patches as patches
-import matplotlib.pyplot as plt
+#import matplotlib.patches as patches
+#import matplotlib.pyplot as plt
 import pymp
 import time
 
