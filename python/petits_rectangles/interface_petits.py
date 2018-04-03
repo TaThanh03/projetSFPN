@@ -80,19 +80,16 @@ class SampleApp(Tk.Tk):
         self.button.pack(side=Tk.RIGHT)
         
     def _go(self):
-        arg1 = self.entry_msize.get()
-        arg2 = self.entry_epsilon.get()
-        arg3 = self.entry_precision.get()
         self.ax.clear()
-
-        A = matrice_gen(int(arg1))
-        m = int(arg3)
-        x,y,sigmin,s = grid_petits_rect(A, float(arg2), m)
+        A = matrice_gen(int(self.entry_msize.get()))
+        eps = float(self.entry_epsilon.get())
+        m = int(self.entry_precision.get())
+        x,y,sigmin,s = grid_petits_rect(A, eps, m)
         for i in range(s):
             tmp1 = x[1+i*m:(i+1)*m]
             tmp2 = y[1+i*m:(i+1)*m]
             tmp3 = sigmin[1+i*m:(i+1)*m,1+i*m:(i+1)*m]
-            self.ax.contour(tmp1,tmp2,tmp3,0.3)
+            self.ax.contour(tmp1,tmp2,tmp3,eps)
         #self.canvas.draw()
         self.canvas.show()
         
