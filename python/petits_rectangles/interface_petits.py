@@ -85,13 +85,16 @@ class SampleApp(Tk.Tk):
         eps = float(self.entry_epsilon.get())
         m = int(self.entry_precision.get())
         x,y,sigmin,s = grid_petits_rect(A, eps, m)
+        print("s", s) 
+        """
         for i in range(s):
             tmp1 = x[1+i*m:(i+1)*m]
             tmp2 = y[1+i*m:(i+1)*m]
             tmp3 = sigmin[1+i*m:(i+1)*m,1+i*m:(i+1)*m]
             self.ax.contour(tmp1,tmp2,tmp3,eps)
-        #self.canvas.draw()
-        self.canvas.show()
+        """
+        self.canvas.draw()
+        #self.canvas.show()
         
     def _quit(self):
         self.quit()     # stops mainloop

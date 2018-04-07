@@ -1,6 +1,6 @@
 import numpy as np
 from petits_rect import petits_rect
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import pymp
 import time
 
@@ -45,14 +45,14 @@ def grid_petits_rect(A,eps,m):
                 u,s1,v = np.linalg.svd(complex(x[k+(l-1)*m],y[j+(l-1)*m])*np.eye(n)-A)
                 sigmin[j+l*m,k+l*m] = s1[-1]
     """
-    """
+    
     for i in range(s):
         tmp1 = x[1+i*m:(i+1)*m];
         tmp2 = y[1+i*m:(i+1)*m];
         tmp3 = sigmin[1+i*m:(i+1)*m,1+i*m:(i+1)*m];
         plt.contour(tmp1,tmp2,tmp3,[eps])
     plt.show()
-    """
+    
     return x,y,sigmin,s
 
 def main():
