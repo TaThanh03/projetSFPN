@@ -105,10 +105,10 @@ class SampleApp(Tk.Tk):
         
         self.checkbutton_algo = Tk.LabelFrame(self.label_ENTRY, text="Algorithm:" )
         self.CheckVar1 = Tk.IntVar()
-        C1 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid grand rectangle", variable = self.CheckVar1, value=1, command= self._sel)
-        C2 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid petits rectangles", variable = self.CheckVar1, value=2, command= self._sel)
+        C1 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid grand rectangle", variable = self.CheckVar1, value=1)
+        C2 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid petits rectangles", variable = self.CheckVar1, value=2)
         C3 = Tk.Radiobutton(self.checkbutton_algo, text = "Prediction Correction", variable = self.CheckVar1, value=3, command= self._popup_proj_corr)
-        C4 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid par Composition", variable = self.CheckVar1, value=4, command= self._sel)
+        C4 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid par Composition", variable = self.CheckVar1, value=4)
         C1.pack(anchor = 'w' )
         C2.pack(anchor = 'w' )
         C3.pack(anchor = 'w' )
@@ -190,9 +190,6 @@ class SampleApp(Tk.Tk):
     def _quit(self):
         self.quit()     # stops mainloop
         self.destroy()
-    def _sel(self):
-        strg = "You selected the option " + str(self.CheckVar1.get())
-        self.label_TIME.config(text = strg)
     def _popup_proj_corr(self):
         self.toplevel = Tk.Toplevel()
         self.label_K = Tk.LabelFrame(self.toplevel, text="K:")

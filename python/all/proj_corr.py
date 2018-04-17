@@ -55,14 +55,16 @@ def proj_corr(A,epss,K,tol) :
             if(abs(z-z1) < 0.001*abs(z1)):
                 break;
             k = k+1;
-        
+    """
     for i in range(taille):
         plt.plot(zx[i],zy[i]);
     plt.show()
+    """
     end = time.time()
     mytime = end -start
     return taille, zx, zy, mytime
 
-
+"""
 A = np.array([[1, 1, 1, 1],[2, 60, 2, 2],[1, 1, 20, 1],[1, 2, 5, 20*1j]])
 proj_corr(A,0.3,100,0.0001)
+"""
