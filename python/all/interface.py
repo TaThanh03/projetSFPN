@@ -3,6 +3,7 @@ matplotlib.use('TkAgg')
 from grid_rect import show_grid_rect, show_grid_rect_zoom
 from grid_petits_rect2 import grid_petits_rect
 from proj_corr import proj_corr
+from grid_par_comp import grid_par_comp
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
@@ -55,7 +56,7 @@ class my_toolbar(NavigationToolbar2TkAgg):
     def press_zoom(self, event):
         global zoom_x_tmp, zoom_y_tmp
         zoom_x_tmp, zoom_y_tmp = event.xdata, event.ydata
-        print("press", zoom_x_tmp, zoom_y_tmp)
+        #print("press", zoom_x_tmp, zoom_y_tmp)
         NavigationToolbar2TkAgg.press_zoom(self, event)
         
     def release_zoom(self, event):
@@ -73,7 +74,7 @@ class my_toolbar(NavigationToolbar2TkAgg):
             zoom_y_max = zoom_y_tmp
             zoom_y_min = event.ydata
         zoom_x_tmp, zoom_y_tmp = event.xdata, event.ydata
-        print('release', zoom_x_min, zoom_x_max, zoom_y_min, zoom_y_max)
+        #print('release', zoom_x_min, zoom_x_max, zoom_y_min, zoom_y_max)
         NavigationToolbar2TkAgg.release_zoom(self, event)
         
         
@@ -170,7 +171,10 @@ class SampleApp(Tk.Tk):
             for i in range(taille):
                 self.ax.plot(zx[i], zy[i])
             self.canvas.show()
-            
+        elif (self.CheckVar1.get() == 4):
+            x,y,p,time = grid_par_comp(arg1, arg2, arg3)
+            self.ax.contour(x,y,p,[arg2])
+            self.canvas.show()
         strg = "Time: " + str(time)
         self.label_TIME.config(text = strg)
         

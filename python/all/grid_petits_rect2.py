@@ -53,14 +53,14 @@ def grid_petits_rect(A,eps,m):
     
     end = time.time()
     mytime = end - start
-    print("s inside =", s, eps, m)
+    """
     for i in range(s):
         tmp1 = x[1+i*m:(i+1)*m];
         tmp2 = y[1+i*m:(i+1)*m];
         tmp3 = sigmin[1+i*m:(i+1)*m,1+i*m:(i+1)*m];
         plt.contour(tmp1,tmp2,tmp3,[eps])
     plt.show()
-    
+    """
     return x,y,sigmin,mytime,s,m
 
 def main():
