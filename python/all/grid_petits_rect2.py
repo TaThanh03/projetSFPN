@@ -1,56 +1,49 @@
 import numpy as np
 from petits_rect import petits_rect
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import pymp
 import time
 
 
 
-def grid_petits_rect(A,eps,m):
+def grid_petits_rect(A,eps,m,mode):
     start = time.time()
     
     (max_r,min_r,max_i,min_i,m_scalar) = petits_rect(A,eps)
     m *= m_scalar
     m = int(m)
-    
-    
     n,r = np.shape(A)
     s = np.size(max_r)
     x = np.zeros(s*m)
     y = np.zeros(s*m)
-    sigmin = pymp.shared.array((s*m,s*m))
-    for l in range (s):
-        tmp1 = np.linspace(min_r[l],max_r[l],m);
-        tmp2 = np.linspace(min_i[l],max_i[l],m);
-        for k in range(m):
-            x[(l-1)*m+k] = tmp1[k];
-            y[(l-1)*m+k] = tmp2[k];
-    with pymp.Parallel(4) as p:
-        for l in p.range(s):
+    if mode == 1: #sequentiel
+        sigmin = np.zeros((s*m,s*m))
+        for l in range (s):
+            tmp1 = np.linspace(min_r[l],max_r[l],m);
+            tmp2 = np.linspace(min_i[l],max_i[l],m);
+            for k in range(m):
+                x[(l-1)*m+k] = tmp1[k];
+                y[(l-1)*m+k] = tmp2[k];
+        for l in range(s):
             for k in range(m):
                 for j in range(m):
                     u,s1,v = np.linalg.svd(complex(x[k+(l-1)*m],y[j+(l-1)*m])*np.eye(n)-A)
                     sigmin[j+(l-1)*m,k+(l-1)*m] = s1[-1]
-                    
-    """
-    n,r = np.shape(A)
-    s = np.size(max_r)
-    sigmin = np.zeros((s*m,s*m))
-    x = np.zeros(s*m)
-    y = np.zeros(s*m)
-    for l in range (s):
-        tmp1 = np.linspace(min_r[l],max_r[l],m);
-        tmp2 = np.linspace(min_i[l],max_i[l],m);
-        for k in range(m):
-            x[(l-1)*m+k] = tmp1[k];
-            y[(l-1)*m+k] = tmp2[k];
-    for l in range(s):
-        for k in range(m):
-            for j in range(m):
-                u,s1,v = np.linalg.svd(complex(x[k+(l-1)*m],y[j+(l-1)*m])*np.eye(n)-A)
-                sigmin[j+(l-1)*m,k+(l-1)*m] = s1[-1]
-    """
-    
+                
+    else:
+        sigmin = pymp.shared.array((s*m,s*m))
+        for l in range (s):
+            tmp1 = np.linspace(min_r[l],max_r[l],m);
+            tmp2 = np.linspace(min_i[l],max_i[l],m);
+            for k in range(m):
+                x[(l-1)*m+k] = tmp1[k];
+                y[(l-1)*m+k] = tmp2[k];
+        with pymp.Parallel(4) as p:
+            for l in p.range(s):
+                for k in range(m):
+                    for j in range(m):
+                        u,s1,v = np.linalg.svd(complex(x[k+(l-1)*m],y[j+(l-1)*m])*np.eye(n)-A)
+                        sigmin[j+(l-1)*m,k+(l-1)*m] = s1[-1]
     end = time.time()
     mytime = end - start
     """
@@ -85,13 +78,13 @@ def main():
     grid_petits_rect(A,0.3,1000)
     end = time.time()
     print("time", end - start)
-    """
+    
     A = np.array([[1,0,0,0,0],[2,10,0,0,1],[2,2,70,0,8],[2,4,1,2,6],[2,1,1,1,20]])
     start = time.time()
     grid_petits_rect(A,0.3,100)
     end = time.time()
     print("time", end - start)
-    """
+    
     A = np.array([[1,0,-1,3,1,5],[-2,100,4,5,1,2],[1,8,7,4,9,4],[-7,6,-1,3,4,9],[-2,-4,3,1,2,5],[-6,1,2,5,6,70]])
     start = time.time()
     grid_petits_rect(A,0.3,1000)

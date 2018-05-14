@@ -2,7 +2,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 from grid_rect import show_grid_rect, show_grid_rect_zoom
 from grid_petits_rect2 import grid_petits_rect
-from proj_corr import proj_corr
+from proj_corr import proj_corr, proj_corr_zoom
 from grid_par_comp import grid_par_comp
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
@@ -16,21 +16,21 @@ else:
 
 def matrice_gen(n):
     if n == 2:    
-        A = np.array([[1,20],[-10,-1]])
+        A = np.array([[1,20*1j],[-10,-1]])
     elif n == 3:
-        A = np.array([[-0.55,-0.04,-0.5],[-0.41,0.036,0.19],[0.28,-0.31, 0.20]])
+        A = np.array([[-1, 4, -5*1j],[-1, 3, 9*1j],[8, -3, 2]])
     elif n == 4:
         A = np.array([[1, 1, 1, 1],[2, 60, 2, 2],[1, 1, 20, 1],[1, 2, 5, 20*1j]])
     elif n == 5:
-        A = np.array([[1,0,0,0,0],[2,10,0,0,1],[2,2,70,0,8],[2,4,1,2,6],[2,1,1,1,20]])
+        A = np.array([[1,0,0,0,0],[2,10*1j,0,0,1],[2,2,70,0,8],[2,4,1,2,6],[2,1,1,1,20]])
     elif n == 6:
-        A = np.array([[1,0,-1,3,1,5],[-2,100,4,5,1,2],[1,8,7,4,9,4],[-7,6,-1,3,4,9],[-2,-4,3,1,2,5],[-6,1,2,5,6,70]])
+        A = np.array([[1,0,-1,3,1,5],[-2,100,4,5,1,2],[1,8*1j,7,4,9,4],[-7,6,-1,3,4,9],[-2,-4,3,1,2,5],[-6,1,2,5,6,70]])
     elif n == 7:
-        A = np.array([[1,0,4,-1,3,1,5],[-2,100,9,400,5,1,2],[1,8,7,1,4,9,4],[-2,-7,6,-100,3,4,9],[-2,-1,3,-8,4,2,5],[-6,100,-5,2,5,6,7],[-2,-4,-6,3,5,7,900]])
+        A = np.array([[1,0,4,-1,3,1,5],[-2,100,9*1j,400,5,1,2],[1,8,7*1j,1,4,9,4],[-2,-7,6,-100,3,4,9],[-2,-1,3,-8,4,2,5],[-6,100,-5,2,5,6,7],[-2,-4,-6,3,5,7,900]])
     elif n == 8:
-        A = np.array([[1,0,144,-1,3,4,1,5],[-100,-3,1,100,4,5,1,2],[8,8,-9,87,1,4,9,4],[-2,-57,5,6,-100,35,4,9],[-2,3,-4,3,-8,57,2,5],[-7,1,-5,7,-7,500,5,7],[-2,8,-4,-6,3,100,7,9],[3,4,6,8,-100,4,-3,89]])
+        A = np.array([[1,0,144,-1,3,4,1,5],[-100*1j,-3,1,100,4,5,1,2],[8,8,-9,87*1j,1,4,9,4],[-2,-57,5,6,-100,35,4,9],[-2,3,-4,3,-8,57,2,5],[-7,1,-5,7,-7,500,5,7],[-2,8,-4,-6,3,100,7,9],[3,4,6,8,-100,4,-3,89]])
     else:
-        A = np.array([[1,20],[-10,-1]])
+        A = np.array([[1,20*1j],[-10,-1]])
     return A
 
 zoom_x_max = 0
@@ -60,7 +60,7 @@ class my_toolbar(NavigationToolbar2TkAgg):
         NavigationToolbar2TkAgg.press_zoom(self, event)
         
     def release_zoom(self, event):
-        global zoom_x_tmp, zoom_y_tmp, zoom_x_min, zoom_x_max, zoom_y_min, zoom_y_max
+        global zoom_x_tmp, zoom_y_tmp, zoom_x_max, zoom_x_min, zoom_y_max,  zoom_y_min
         if (zoom_x_tmp < event.xdata):
             zoom_x_min = zoom_x_tmp
             zoom_x_max = event.xdata
@@ -84,8 +84,6 @@ class SampleApp(Tk.Tk):
         self.wm_title("Calcul de pseudospectres")       
         #self.geometry('{}x{}'.format(800, 600))
         
-        
-        
         self.label_ENTRY = Tk.LabelFrame(self, width=100, height=900, pady=3)
         
         self.label_TIME = Tk.Label(self.label_ENTRY, text = "Welcome!")
@@ -106,8 +104,8 @@ class SampleApp(Tk.Tk):
         
         self.checkbutton_algo = Tk.LabelFrame(self.label_ENTRY, text="Algorithm:" )
         self.CheckVar1 = Tk.IntVar()
-        C1 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid grand rectangle", variable = self.CheckVar1, value=1)
-        C2 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid petits rectangles", variable = self.CheckVar1, value=2)
+        C1 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid grand rectangle", variable = self.CheckVar1, value=1, command= self._popup_parallel)
+        C2 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid petits rectangles", variable = self.CheckVar1, value=2, command= self._popup_parallel)
         C3 = Tk.Radiobutton(self.checkbutton_algo, text = "Prediction Correction", variable = self.CheckVar1, value=3, command= self._popup_proj_corr)
         C4 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid par Composition", variable = self.CheckVar1, value=4)
         C1.pack(anchor = 'w' )
@@ -144,50 +142,66 @@ class SampleApp(Tk.Tk):
         
         self.label_graphic.pack(side=Tk.RIGHT)
         
-        
     def _go(self):
         arg1 = matrice_gen(int(self.entry_msize.get()))
         arg2 = float(self.entry_epsilon.get())
         arg3 = int(self.entry_precision.get())
+        algo = self.CheckVar1.get()
         self.ax.clear()
-        
-        if (self.CheckVar1.get() == 1):
-            x,y,sigmin,time = show_grid_rect(arg1, arg2, arg3)   
+        time = 0
+        if (algo == 1):
+            mode = int(self.CheckVar2.get())
+            x,y,sigmin,time = show_grid_rect(arg1, arg2, arg3, mode)   
             self.ax.contour(x,y,sigmin,arg2)
             #self.canvas.draw()
             self.canvas.show()
-        elif (self.CheckVar1.get() == 2):
-            x,y,sigmin,time,s,m = grid_petits_rect(arg1, arg2, arg3)   
+        elif (algo == 2):
+            mode = int(self.CheckVar2.get())
+            x,y,sigmin,time,s,m = grid_petits_rect(arg1, arg2, arg3, mode)   
             for i in range(s):
                 tmp1 = x[1+i*m:(i+1)*m];
                 tmp2 = y[1+i*m:(i+1)*m];
                 tmp3 = sigmin[1+i*m:(i+1)*m,1+i*m:(i+1)*m];
                 self.ax.contour(tmp1,tmp2,tmp3,[arg2])
             self.canvas.show()
-        elif (self.CheckVar1.get() == 3):
+        elif (algo == 3):
             K = int(self.entry_K.get())
             tol = float(self.entry_tol.get())
             taille, zx, zy, time = proj_corr(arg1,arg2,K,tol)
             for i in range(taille):
                 self.ax.plot(zx[i], zy[i])
             self.canvas.show()
-        elif (self.CheckVar1.get() == 4):
+        elif (algo == 4):
             x,y,p,time = grid_par_comp(arg1, arg2, arg3)
             self.ax.contour(x,y,p,[arg2])
             self.canvas.show()
         strg = "Time: " + str(time)
         self.label_TIME.config(text = strg)
         
-    def _recalculate(self):
-        arg1 = matrice_gen(int(self.entry_msize.get()))
-        arg2 = self.entry_epsilon.get()
-        arg3 = self.entry_precision.get()
-        self.ax.clear()
         
-        x,y,sigmin,time = show_grid_rect_zoom(arg1,float(arg2),int(arg3), zoom_x_min, zoom_x_max, zoom_y_min, zoom_y_max)   
-        self.ax.contour(x,y,sigmin,float(arg2))
-        #self.canvas.draw()
-        self.canvas.show()
+    def _recalculate(self):
+        time = 0
+        arg1 = matrice_gen(int(self.entry_msize.get()))
+        arg2 = float(self.entry_epsilon.get())
+        arg3 = int(self.entry_precision.get())
+        algo = self.CheckVar1.get()
+        self.ax.clear()
+        if ( algo == 1 or algo == 2):
+            mode = int(self.CheckVar2.get())
+            x,y,sigmin,time = show_grid_rect_zoom(arg1,arg2,arg3, zoom_x_max, zoom_x_min, zoom_y_max, zoom_y_min, mode)   
+            self.ax.contour(x,y,sigmin,float(arg2))
+            #self.canvas.draw()
+            self.canvas.show()
+        if ( algo == 3):
+            K = int(self.entry_K.get())
+            tol = float(self.entry_tol.get())
+            taille, zx, zy, time = proj_corr_zoom(arg1,arg2,K,tol, zoom_x_max, zoom_x_min, zoom_y_max, zoom_y_min) 
+            for i in range(taille):
+                self.ax.plot(zx[i], zy[i])
+            self.canvas.show()
+        
+        
+        
         strg = "Time: " + str(time)
         self.label_TIME.config(text = strg)
         
@@ -203,7 +217,17 @@ class SampleApp(Tk.Tk):
         self.label_tol = Tk.LabelFrame(self.toplevel, text="Tol:")
         self.label_tol.pack()
         self.entry_tol = Tk.Entry(self.label_tol)
-        self.entry_tol.pack()    
+        self.entry_tol.pack()   
+        
+    def _popup_parallel(self):
+        self.toplevel2 = Tk.Toplevel()
+        self.checkbutton_mode = Tk.LabelFrame(self.toplevel2, text="Mode:" )
+        self.CheckVar2 = Tk.IntVar()
+        C5 = Tk.Radiobutton(self.checkbutton_mode, text = "Sequentiel", variable = self.CheckVar2, value=1)
+        C6 = Tk.Radiobutton(self.checkbutton_mode, text = "Parallel", variable = self.CheckVar2, value=2)
+        C5.pack(anchor = 'w' )
+        C6.pack(anchor = 'w' )
+        self.checkbutton_mode.pack()
         
         
 app = SampleApp()
