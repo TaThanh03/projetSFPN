@@ -104,8 +104,8 @@ class SampleApp(Tk.Tk):
         
         self.checkbutton_algo = Tk.LabelFrame(self.label_ENTRY, text="Algorithm:" )
         self.CheckVar1 = Tk.IntVar()
-        C1 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid grand rectangle", variable = self.CheckVar1, value=1, command= self._popup_parallel)
-        C2 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid petits rectangles", variable = self.CheckVar1, value=2, command= self._popup_parallel)
+        C1 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid grand rectangle", variable = self.CheckVar1, value=1)
+        C2 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid petits rectangles", variable = self.CheckVar1, value=2)
         C3 = Tk.Radiobutton(self.checkbutton_algo, text = "Prediction Correction", variable = self.CheckVar1, value=3, command= self._popup_proj_corr)
         C4 = Tk.Radiobutton(self.checkbutton_algo, text = "Grid par Composition", variable = self.CheckVar1, value=4)
         C1.pack(anchor = 'w' )
@@ -113,6 +113,14 @@ class SampleApp(Tk.Tk):
         C3.pack(anchor = 'w' )
         C4.pack(anchor = 'w' )
         self.checkbutton_algo.pack()
+        
+        self.checkbutton_mode = Tk.LabelFrame(self.label_ENTRY, text="Mode:" )
+        self.CheckVar2 = Tk.IntVar()
+        C5 = Tk.Radiobutton(self.checkbutton_mode, text = "Sequentiel", variable = self.CheckVar2, value=1)
+        C6 = Tk.Radiobutton(self.checkbutton_mode, text = "Parallel", variable = self.CheckVar2, value=2)
+        C5.pack(anchor = 'w' )
+        C6.pack(anchor = 'w' )
+        self.checkbutton_mode.pack()
         
         self.button_go = Tk.Button(self.label_ENTRY, text="Go", command=self._go)
         self.button_go.pack(fill='x', expand=True)
@@ -147,16 +155,15 @@ class SampleApp(Tk.Tk):
         arg2 = float(self.entry_epsilon.get())
         arg3 = int(self.entry_precision.get())
         algo = self.CheckVar1.get()
+        mode = int(self.CheckVar2.get())
         self.ax.clear()
         time = 0
         if (algo == 1):
-            mode = int(self.CheckVar2.get())
             x,y,sigmin,time = show_grid_rect(arg1, arg2, arg3, mode)   
             self.ax.contour(x,y,sigmin,arg2)
             #self.canvas.draw()
             self.canvas.show()
         elif (algo == 2):
-            mode = int(self.CheckVar2.get())
             x,y,sigmin,time,s,m = grid_petits_rect(arg1, arg2, arg3, mode)   
             for i in range(s):
                 tmp1 = x[1+i*m:(i+1)*m];
@@ -167,12 +174,12 @@ class SampleApp(Tk.Tk):
         elif (algo == 3):
             K = int(self.entry_K.get())
             tol = float(self.entry_tol.get())
-            taille, zx, zy, time = proj_corr(arg1,arg2,K,tol)
+            taille, zx, zy, time = proj_corr(arg1, arg2, K, tol, mode)
             for i in range(taille):
                 self.ax.plot(zx[i], zy[i])
             self.canvas.show()
         elif (algo == 4):
-            x,y,p,time = grid_par_comp(arg1, arg2, arg3)
+            x,y,p,time = grid_par_comp(arg1, arg2, arg3, mode)
             self.ax.contour(x,y,p,[arg2])
             self.canvas.show()
         strg = "Time: " + str(time)
@@ -185,9 +192,9 @@ class SampleApp(Tk.Tk):
         arg2 = float(self.entry_epsilon.get())
         arg3 = int(self.entry_precision.get())
         algo = self.CheckVar1.get()
+        mode = int(self.CheckVar2.get())
         self.ax.clear()
         if ( algo == 1 or algo == 2):
-            mode = int(self.CheckVar2.get())
             x,y,sigmin,time = show_grid_rect_zoom(arg1,arg2,arg3, zoom_x_max, zoom_x_min, zoom_y_max, zoom_y_min, mode)   
             self.ax.contour(x,y,sigmin,float(arg2))
             #self.canvas.draw()
@@ -200,14 +207,13 @@ class SampleApp(Tk.Tk):
                 self.ax.plot(zx[i], zy[i])
             self.canvas.show()
         
-        
-        
         strg = "Time: " + str(time)
         self.label_TIME.config(text = strg)
         
     def _quit(self):
         self.quit()     # stops mainloop
         self.destroy()
+        
     def _popup_proj_corr(self):
         self.toplevel = Tk.Toplevel()
         self.label_K = Tk.LabelFrame(self.toplevel, text="K:")
@@ -218,17 +224,6 @@ class SampleApp(Tk.Tk):
         self.label_tol.pack()
         self.entry_tol = Tk.Entry(self.label_tol)
         self.entry_tol.pack()   
-        
-    def _popup_parallel(self):
-        self.toplevel2 = Tk.Toplevel()
-        self.checkbutton_mode = Tk.LabelFrame(self.toplevel2, text="Mode:" )
-        self.CheckVar2 = Tk.IntVar()
-        C5 = Tk.Radiobutton(self.checkbutton_mode, text = "Sequentiel", variable = self.CheckVar2, value=1)
-        C6 = Tk.Radiobutton(self.checkbutton_mode, text = "Parallel", variable = self.CheckVar2, value=2)
-        C5.pack(anchor = 'w' )
-        C6.pack(anchor = 'w' )
-        self.checkbutton_mode.pack()
-        
         
 app = SampleApp()
 app.mainloop()
