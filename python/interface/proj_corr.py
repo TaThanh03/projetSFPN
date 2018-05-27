@@ -50,7 +50,7 @@ def proj_corr_zoom(A, epss, K, tol, zoom_x_max, zoom_x_min, zoom_y_max, zoom_y_m
         #END STEP 0
         while(k<K):
             #STEP 1: Prediction
-            tho = np.min(0.1,(0.5)*abs(z - vp[i]))
+            tho = min(0.1,(0.5)*abs(z - vp[i]))
             r = 1j*(np.vdot(v_min,u_min))/abs(np.vdot(v_min,u_min))
             z = z+tho*r
             #STEP 2: Correction
@@ -108,7 +108,7 @@ def proj_corr(A, epss, K, tol, mode) :
             #END STEP 0
             while(k<K):
                 #STEP 1: Prediction
-                tho = np.min(0.1,(0.5)*abs(z - vp[i]))
+                tho = min(0.1,(0.5)*abs(z - vp[i]))
                 r = 1j*(np.vdot(v_min,u_min))/abs(np.vdot(v_min,u_min)) #?????
                 z = z+tho*r
                 #STEP 2: Correction
@@ -161,7 +161,7 @@ def proj_corr(A, epss, K, tol, mode) :
                 #END STEP 0
                 while(k<K):
                     #STEP 1: Prediction
-                    tho = np.min(0.1,(0.5)*abs(z - vp[i]))
+                    tho = min(0.1,(0.5)*abs(z - vp[i]))
                     r = 1j*(np.vdot(v_min,u_min))/abs(np.vdot(v_min,u_min))
                     z = z+tho*r
                     #STEP 2: Correction

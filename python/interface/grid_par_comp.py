@@ -20,7 +20,11 @@ def grid_par_comp(A, eps, m, mode):
                 X = abs(np.linalg.inv(A - ((x[k]+y[j]*1j)*np.eye(n))));
                 Y = np.dot(X,E);
                 s,v = np.linalg.eig(Y)
-                p[j,k] = max(abs(s));     
+                p[j,k] = max(abs(s))    
+                
+                
+                
+                
     else:
         p = pymp.shared.array((m,m))
         with pymp.Parallel(4) as pimp:
@@ -28,8 +32,8 @@ def grid_par_comp(A, eps, m, mode):
                 for j in range(m):
                     X = abs(np.linalg.inv(A - ((x[k]+y[j]*1j)*np.eye(n))));
                     Y = np.dot(X,E);
-                    s,v = np.linalg.eig(Y)
-                    p[j,k] = max(abs(s))
+                    s,v = np.linalg.eig(Y) 
+                    p[j,k] = max(abs(s));
             
     """
     plt.contour(x,y,p,[eps])

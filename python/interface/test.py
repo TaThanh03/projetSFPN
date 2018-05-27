@@ -19,29 +19,30 @@ def test(taille_max,nb_test):
             A = np.random.random((i,i))+np.random.random((i,i))*1j
             start = time.time()
             
-            proj_corr(A, epss, 10000, float(0.0001), 1)
-            #show_grid_rect(A, epss, m, 1)  
+            #show_grid_rect(A, epss, m, 1)
+            #proj_corr(A, epss, 1000, 0.001, 1)
+            grid_par_comp(A, epss, m, 1)
             end = time.time()
             my_time_seq[k] = end - start
             print(my_time_seq[k])
             start = time.time()
-            proj_corr(A, epss, 10000, float(0.0001), 2)
-            #show_grid_rect(A, epss, m, 2) 
+            #show_grid_rect(A, epss, m, 2);
+            #proj_corr(A, epss, 1000, 0.001, 2)
+            grid_par_comp(A, epss, m, 2)
             end = time.time()
             my_time_para[k] = end - start
             print(my_time_para[k])
+
         time_seq[i-2] = np.mean(my_time_seq)
         time_para[i-2] = np.mean(my_time_para)
     plt.plot(x,time_seq,"r-o",label = "Sequentiel")
     plt.plot(x,time_para,"b-o",label = "Parallele")
     plt.xlabel("taille de la matrice")
     plt.ylabel("temps de calcul")
-    
-    
+     
     plt.legend()
     plt.savefig('grid_par_comp.png', transparent=False, bbox_inches='tight')
     plt.show()
     return
 
-#test(9,20)
-test(10,10)
+test(11,2)
