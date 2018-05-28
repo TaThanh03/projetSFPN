@@ -25,9 +25,9 @@ def petits_rect(A,eps):
             for j in range (n):
                 if(liste[i,j]==1):
                     for k in range(n):
-                        if(liste[i,k] == 1):
+                        if(liste[i,k] == 1 & k != j):
                             liste[j,k] = 1
-                        if(liste[k,j] == 1):
+                        if(liste[k,j] == 1 & k != i):
                             liste[k,i] = 1
     i = 1
     while(i<n):
