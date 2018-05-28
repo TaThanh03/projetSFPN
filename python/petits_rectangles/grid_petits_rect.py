@@ -21,8 +21,8 @@ def grid_petits_rect(A,eps,m):
             x[(l-1)*m+k] = tmp1[k];
             y[(l-1)*m+k] = tmp2[k];
     with pymp.Parallel(4) as p:
-        for l in p.range(s):
-            for k in range(m):
+        for l in range(s):
+            for k in p.range(m):
                 for j in range(m):
                     u,s1,v = np.linalg.svd(complex(x[k+(l-1)*m],y[j+(l-1)*m])*np.eye(n)-A)
                     sigmin[j+l*m,k+l*m] = s1[-1]
